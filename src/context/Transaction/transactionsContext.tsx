@@ -16,7 +16,7 @@ export interface CreateTransactionInput {
   type: "income" | "outcome";
 }
 
-interface TransactionContextType {
+export interface TransactionContextType {
   transactions: Transactions[];
   fetchTransactions: (query?: string) => Promise<void>;
   createTransaction: (data: CreateTransactionInput) => Promise<void>;

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import {
   CreateTransactionInput,
   Transactions,
@@ -13,7 +13,7 @@ interface TransactionsProviderProps {
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transactions[]>([]);
 
-  async function fetchTransactions(query?: string) {
+  const fetchTransactions = useCallback(async (query?: string) => {
     const response = await api.get("/transactions", {
       params: {
         q: query,
@@ -22,28 +22,26 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       },
     });
     setTransactions(response.data);
-  }
+  }, []);
 
-  async function createTransaction({
-    category,
-    description,
-    price,
-    type,
-  }: CreateTransactionInput) {
-    const response = await api.post("/transactions", {
-      description,
-      category,
-      price,
-      type,
-      createdAt: new Date(),
-    });
+  const createTransaction = useCallback(
+    async ({ category, description, price, type }: CreateTransactionInput) => {
+      const response = await api.post("/transactions", {
+        description,
+        category,
+        price,
+        type,
+        createdAt: new Date(),
+      });
 
-    setTransactions((state) => [...state, response.data]);
-  }
+      setTransactions((state) => [...state, response.data]);
+    },
+    []
+  );
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [fetchTransactions]);
 
   return (
     <TransactionsContext.Provider
