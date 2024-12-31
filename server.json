@@ -23,6 +23,14 @@
       "category": "Educação",
       "price": 1980,
       "createdAt": "2024-12-31T19:08:18.967Z"
+    },
+    {
+      "description": "iogurte de banana",
+      "category": "Alimentação",
+      "price": 4,
+      "type": "outcome",
+      "createdAt": "2024-12-31T18:56:54.810Z",
+      "id": 4
     }
   ]
 }
